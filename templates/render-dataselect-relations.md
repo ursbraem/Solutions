@@ -49,7 +49,7 @@ Create a new page plays.php
 
 Load it in the browser, go to Perch, assign the play.html template to the region, add some plays.
 
-You also make the region shared (see below).
+You can also make the region shared (see below).
 
 ## Define an event: event_be.html and event_fe.html
 
