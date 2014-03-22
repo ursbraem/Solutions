@@ -33,7 +33,7 @@ Create a template for a play. Just a regular perch template in perch/templates/c
 <perch:if exists="play_link"></a></perch:if>
 ```
 
-Note: don't forget that ID's can't have dashes (play-html) and that tags must always be properly closed or self-closing.
+> Note: don't forget that ID's can't have dashes (play-html) and that tags must always be properly closed or self-closing.
 
 
 ## Seize the plays: plays.php
@@ -57,7 +57,7 @@ Now we define the template for the event calendar.
 
 For the example's sake, let's say it's that basic it only features the play's title, a link and some text (of course, this would have date etc. added).
 
-Note: I like to divide my templates into frontend and backend templates, so I can move stuff freely for the backend and have less clutter in the already cluttered frontend template. If you do so too, you can also use separate folders for FE and BE templates.
+> Note: I like to divide my templates into frontend and backend templates, so I can move stuff freely for the backend and have less clutter in the already cluttered frontend template. If you do so too, you can also use separate folders for FE and BE templates.
 
 Of course, you can put everything into one template and hide / suppress fields for the front- and backend.
 
@@ -69,7 +69,7 @@ event_be.html
 <perch:content id="morecontent" type="textarea" label="Description" />
 ```
 
-Note: if you have set the 'Plays' region to "shared", you have to write set the attribute page="*".
+> Note: if you have set the 'Plays' region to "shared", you have to write set the attribute page="*".
 
 event_fe.html
 ```
@@ -79,9 +79,7 @@ event_fe.html
 </section>
 ```
 
-(I'm pretending HTML5 here to compensate the fact that the page I'm retrofitting is XHTML 0.1.5 or so.)
-
-Note: The FE template doesn't even need the dataselect field. Instead we give it a field play_html we will fill later. But you have to add encode="false" to achieve proper rendering.
+> Note: The FE template doesn't even need the dataselect field. Instead we give it a field play_html we will fill later. But you have to add encode="false" to achieve proper rendering.
 
 And: If you add <perch:content id="playID"> to the FE template, you'll see that the dataselect field only returns it's value. Not the entire template of the linked item. That's why we have to do some more rendering.
 
@@ -93,7 +91,7 @@ Use perch_content('Events') to create the region and remove it after you've mapp
 
 Enter some Events in Perch. You will be able to select a play for each entry via the dataselect dropdown, the value being the play's ID.
 
-Note: I have one remaining issue here: I wasn't able to use the text used as "option" in the dataselect as item title in the Perch Backend. Ugly workaround would be to have editors enter the play's title again manually for better recognition in perch and use that as the item's title. I hope there's a better solution. 
+> Note: I have one remaining issue here: I wasn't able to use the text used as "option" in the dataselect as item title in the Perch Backend. Ugly workaround would be to have editors enter the play's title again manually for better recognition in perch and use that as the item's title. I hope there's a better solution. 
 
 Back in events.php, use perch_content_custom to render not only the events list, but also the referred "play" entry.
 
@@ -125,9 +123,9 @@ perch_content_custom('Events',array(
 	  	));
 ```
 
-Note: We're using the template for the play item type as a "sub" template for rendering. That's not mandatory, we could also write another custom FE template and use that.
+> Note: We're using the template for the play item type as a "sub" template for rendering. That's not mandatory, we could also write another custom FE template and use that.
 
-Note: If it's becoming confusing, I use <perch:showall /> in the template and in PHP, e.g. after `'each' => function($item) {`:
+> Note: If it's becoming confusing, I use <perch:showall /> in the template and in PHP, e.g. after `'each' => function($item) {`:
 
 ```
 echo '<pre>';
