@@ -41,9 +41,10 @@ Note: don't forget that ID's can't have dashes (play-html) and that tags must al
 Create a new page plays.php
 
 ```
-<?php include($_SERVER['DOCUMENT_ROOT'].'/perch/runtime.php');	perch_content('Plays',true); 
-  // true to suppress the output if the page should stay here
-?>
+<?php include($_SERVER['DOCUMENT_ROOT'].'/perch/runtime.php');
+	// true to suppress the output if the page should stay here
+  perch_content('Plays',true); 
+  ?>
 ```
 
 Load it in the browser, go to Perch, assign the play.html template to the region, add some plays.
