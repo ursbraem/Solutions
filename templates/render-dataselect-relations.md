@@ -81,7 +81,7 @@ event_fe.html
 
 > Note: The FE template doesn't even need the dataselect field. Instead we give it a field play_html we will fill later. But you have to add encode="false" to achieve proper rendering.
 
-And: If you add <perch:content id="playID"> to the FE template, you'll see that the dataselect field only returns it's value. Not the entire template of the linked item. That's why we have to do some more rendering.
+> And: If you add <perch:content id="playID"> to the FE template, you'll see that the dataselect field only returns it's value. Not the entire template of the linked item. That's why we have to do some more rendering.
 
 ## Put it together: events.php
 
@@ -91,7 +91,7 @@ Use perch_content('Events') to create the region and remove it after you've mapp
 
 Enter some Events in Perch. You will be able to select a play for each entry via the dataselect dropdown, the value being the play's ID.
 
-> Note: I have one remaining issue here: I wasn't able to use the text used as "option" in the dataselect as item title in the Perch Backend. Ugly workaround would be to have editors enter the play's title again manually for better recognition in perch and use that as the item's title. I hope there's a better solution. 
+> Note: I have one remaining issue here: I wasn't able to use the text used as "option" in the dataselect as item title in the Perch Backend. An ugly workaround would be to have editors enter the play's title again manually for better recognition in perch and use that as the item's title. I hope there's a better solution. 
 
 Back in events.php, use perch_content_custom to render not only the events list, but also the referred "play" entry.
 
@@ -108,12 +108,12 @@ perch_content_custom('Events',array(
           // perch sees the region only on the page we've put it on, so tell it to look there
           // remove if using a shared region
 		  		'page'=>'/plays.php',
-          // now it would render all items. we don't want all items
-          // just the one where the play's id
+          // now it would render all items. but we don't want all items,
+          // just the one where the play's ID
 		  		'filter'=>'_id',
           // is equal to
 		  		'match'=>'eq',
-          // the play's id we've selected in the dataselect
+          // the ID of the play we've selected in the dataselect
 		  		'value'=>$item['playID'],
 	  			// return : true
           ),true);
@@ -123,14 +123,17 @@ perch_content_custom('Events',array(
 	  	));
 ```
 
-> Note: We're using the template for the play item type as a "sub" template for rendering. That's not mandatory, we could also write another custom FE template and use that.
+> Note: We're using the template for the play item (play.html) type as a "sub" template for rendering. That's not mandatory, we could also write another custom FE template and use that.
 
-> Note: If it's becoming confusing, I use <perch:showall /> in the template and in PHP, e.g. after `'each' => function($item) {`:
+> Note: If it's becoming confusing, I use ```<perch:showall />```in the template.  And of course, to analyse the output:
 
 ```
+...
+'each' => function($item) {
 echo '<pre>';
 print_r($item);
 echo '</pre>'; 
+...
 ```
 
 That's it! The "subtemplate" will be included into the region's main template.
