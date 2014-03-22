@@ -57,9 +57,9 @@ Now we define the template for the event calendar.
 
 For the example's sake, let's say it's that basic it only features the play's title, a link and some text (of course, this would have date etc. added).
 
-> Note: I like to divide my templates into frontend and backend templates, so I can move stuff freely for the backend and have less clutter in the already cluttered frontend template. If you do so too, you can also use separate folders for FE and BE templates.
+> Note: I like to divide my templates into frontend and backend templates, so I can move stuff freely for the backend and have less clutter in the already cluttered frontend template. If you do so too, you can also use separate folders for FE and BE templates. 
 
-Of course, you can put everything into one template and hide / suppress fields for the front- and backend.
+> Of course, you can also put everything into one template and hide / suppress fields for the front- and backend.
 
 So in my case it's:
 
@@ -69,7 +69,7 @@ event_be.html
 <perch:content id="morecontent" type="textarea" label="Description" />
 ```
 
-> Note: if you have set the 'Plays' region to "shared", you have to write set the attribute page="*".
+> Note: if you have set the 'Plays' region to "shared", you have to set the attribute ```page="*"```.
 
 event_fe.html
 ```
