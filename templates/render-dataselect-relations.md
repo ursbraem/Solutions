@@ -101,8 +101,8 @@ For this, we'll use perch_content_custom's "each" callback to fill the ```<perch
 
 ```
 perch_content_custom('Events',array(
-	  		'template'=>'events_fe.html',
-	  		'each' => function($item) {
+	  'template'=>'events_fe.html',
+	  'each' => function($item) {
           // fill the slot we've prepared in the FE template
 		  		$item['play_html'] = perch_content_custom('Plays', array(
 		  		// use this as a "sub" template
@@ -129,9 +129,11 @@ Note: We're using the template for the play item type as a "sub" template for re
 
 Note: If it's becoming confusing, I use <perch:showall /> in the template and in PHP, e.g. after `'each' => function($item) {`:
 
+```
 echo '<pre>';
 print_r($item);
 echo '</pre>'; 
+```
 
 That's it! The "subtemplate" will be included into the region's main template.
 
