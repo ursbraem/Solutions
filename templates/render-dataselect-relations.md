@@ -91,7 +91,9 @@ Use perch_content('Events') to create the region and remove it after you've mapp
 
 Enter some Events in Perch. You will be able to select a play for each entry via the dataselect dropdown, the value being the play's ID.
 
-> Note: I have one remaining issue here: I wasn't able to use the text used as "option" in the dataselect as item title in the Perch Backend. An ugly workaround would be to have editors enter the play's title again manually for better recognition in perch and use that as the item's title. I hope there's a better solution. 
+> Note: I have one remaining issue here: I wasn't able to use the text used as "option" in the dataselect as item title in the Perch Backend. A workaround would be to have editors enter the play's title again manually for better recognition in perch and use that as the item's title. I hope there's a better solution. 
+
+> Another, probably not recommendable workaround would be not to use the ID as field value at all: ```<perch:content id="playID" type="dataselect" label="Choose a play" page="/plays.php" region="Plays" options="play_title" required="true" />``` (then you would have to modify perch_content_custom in the last part as well)
 
 Back in events.php, use perch_content_custom to render not only the events list, but also the referred "play" entry.
 
