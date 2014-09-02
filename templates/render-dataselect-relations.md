@@ -87,3 +87,42 @@ Here's the desired output:
 ```
 
 Now you can use Perch to manage and output all kinds of related data.
+
+# Addition: Render repeating regions
+
+When working with repeating regions, the above won't work. It's fairly easy to do, though.
+
+```
+<perch:repeater id="projects" label="Projects">
+	<perch:content id="projectID" type="dataselect" label="URL" page="/data.php" region="Projects" options="link" values="_id" suppress="true" />
+</perch:repeater>
+<perch:content id="project_html" encode="false" />
+```
+
+> Note that the rendered perch tag is outside the repeater.
+
+and the php: when parsing the callback, simply loop through the repeaters:
+
+```
+perch_content_custom('Case Studies',array(
+  'template'=>'data/casestudy.html',
+  'page' => '/data.php',
+  'filter' => 'hide',
+  'match' => 'neq',
+  'value' => 'false',
+  'each' => function($item) {
+      $item['project_html'] = '';
+      foreach($item['projects'] as $itemRepeater){
+        $item['project_html'] .= perch_content_custom('Projects', array(
+          'template'=>'data/project.html',
+          'page'=>'/data.php',
+          'filter'=>'_id',
+          'match'=>'eq',
+          'value'=>$itemRepeater['projectID'],
+          // return : true
+        ),true);               
+      }
+    return $item;
+  }
+));
+```
