@@ -15,87 +15,36 @@ In the frontend, use the "each" callback function (http://docs.grabaperch.com/do
 
 ## Example
 
-Your client is a company that manufactures everything. Ah no. Let's stay real, it's a theatre company that has done a bunch of plays. In our case (we're retrofitting an existing site), each play's entry just consists of a title and a link.
+Your client is a theatre company that has done a bunch of plays. In the website, each play's entry just consists of a title and a link. We will use the data from the plays in an event calendar.
 
-They have several lists they are now managing with Perch: an event calendar and several statistics. In each list, the plays' titles and links are used. To avoid errors, for convenience etc., we want them to enter the play's details only once.
+## Add some plays
 
-Of course, in the rendered template, e.g. the calendar, we then want the link and play title to render based on a template.
+Create a new page plays.php, create a multi-item region "Plays", e.g. with perch_content_create() and a corresponding perch template. Add a few entries in the backend.
 
-In the example, we'll stick with the event calendar.
+## Add some events
 
-## Define the play template: play.html
+On another page, events.php, add a multi-item region for events. The template could look like this:
 
-Create a template for a play. Just a regular perch template in perch/templates/content
-
+event.html
 ```
-<perch:if exists="play_link"><a href="<perch:content id="play_link" type="text" label="Link" />"></perch:if>
-<perch:content id="play_title" type="text" label="Title" title="true" required="true" />
-<perch:if exists="play_link"></a></perch:if>
-```
-
-> Note: don't forget that ID's can't have dashes (play-html) and that tags must always be properly closed or self-closing.
-
-
-## Seize the plays: plays.php
-
-Create a new page plays.php
-
-```
-<?php include($_SERVER['DOCUMENT_ROOT'].'/perch/runtime.php');
-	// true to suppress the output if the page should stay here
-  perch_content('Plays',true); 
-  ?>
-```
-
-Load it in the browser, go to Perch, assign the play.html template to the region, add some plays.
-
-You can also make the region shared (see below).
-
-## Define an event: event_be.html and event_fe.html
-
-Now we define the template for the event calendar. 
-
-For the example's sake, let's say it's that basic it only features the play's title, a link and some text (of course, this would have date etc. added).
-
-> Note: I like to divide my templates into frontend and backend templates, so I can move stuff freely for the backend and have less clutter in the already cluttered frontend template. If you do so too, you can also use separate folders for FE and BE templates. 
-
-> Of course, you can also put everything into one template and hide / suppress fields for the front- and backend.
-
-So in my case it's:
-
-event_be.html
-```
-<perch:content id="playID" type="dataselect" label="Choose a play" page="/plays.php" region="Plays" options="play_title" values="_id" required="true" />
-<perch:content id="morecontent" type="textarea" label="Description" />
-```
-
-> Note: if you have set the 'Plays' region to "shared", you have to set the attribute ```page="*"```.
-
-event_fe.html
-```
+<perch:content id="playID" type="dataselect" label="Choose a play" page="/plays.php" region="Plays" options="play_title" values="_id" required="true" suppress="true"/>
 <section class="play">
    <perch:content id="play_html" encode="false" />
-   <perch:content id="morecontent" />
+   <perch:content id="morecontent" type="textarea" label="Description" />
 </section>
 ```
 
-> Note: The FE template doesn't even need the dataselect field. Instead we give it a field play_html we will fill later. But you have to add encode="false" to achieve proper rendering.
+> Note: if you have set the 'Plays' region to "shared", you have to set the attribute ```page="*"``` instead of ```page="/plays.php"```.
 
-> And: If you add <perch:content id="playID"> to the FE template, you'll see that the dataselect field only returns it's value. Not the entire template of the linked item. That's why we have to do some more rendering.
+We suppress the dataselect field in the frontend - we will place some content from it into "play_html" later on. Make sure to add encode="false" to achieve proper rendering.
 
-## Put it together: events.php
+Enter some data for the events. You'll already be able to select plays via the dataselect dropdown - without effect in the frontend yet though.
 
-On the page events.php, finally, we use the "each" callback of perch_content_custom.
+> Try adding <perch:content id="playID"> to the FE template. You'll notice that the dataselect field only returns it's value. Not the entire template of the linked item. That's why we have to do some more rendering.
 
-Use perch_content('Events') to create the region and remove it after you've mapped it to events_be.html.
+## Render the whole template
 
-Enter some Events in Perch. You will be able to select a play for each entry via the dataselect dropdown, the value being the play's ID.
-
-> Note: I have one remaining issue here: I wasn't able to use the text used as "option" in the dataselect as item title in the Perch Backend. A workaround would be to have editors enter the play's title again manually for better recognition in perch and use that as the item's title. I hope there's a better solution. 
-
-> Another, probably not recommendable workaround would be not to use the ID as field value at all: ```<perch:content id="playID" type="dataselect" label="Choose a play" page="/plays.php" region="Plays" options="play_title" required="true" />``` (then you would have to modify perch_content_custom in the last part as well)
-
-Back in events.php, use perch_content_custom to render not only the events list, but also the referred "play" entry.
+Finally, we use the "each" callback of perch_content_custom to render the whole, referenced "play" template.
 
 For this, we'll use perch_content_custom's "each" callback to fill the ```<perch:content id="play_html" encode="false" />``` tag from our events_fe.html template.
 
@@ -125,18 +74,6 @@ perch_content_custom('Events',array(
 	  	));
 ```
 
-> Note: We're using the template for the play item (play.html) type as a "sub" template for rendering. That's not mandatory, we could also write another custom FE template and use that.
-
-> Note: If it's becoming confusing, I use ```<perch:showall />```in the template.  And of course, to analyse the output:
-
-```
-...
-'each' => function($item) {
-echo '<pre>';
-print_r($item);
-echo '</pre>'; 
-...
-```
 
 That's it! The "subtemplate" will be included into the region's main template.
 
@@ -150,14 +87,3 @@ Here's the desired output:
 ```
 
 Now you can use Perch to manage and output all kinds of related data.
-
-
-
-
-
-
-
-
-
-
-
